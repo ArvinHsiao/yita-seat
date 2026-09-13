@@ -3,7 +3,7 @@
 > ⭐ **先讀 [seat-brief](seat-brief.md)**（座位總稿，站主 2026-09-07 定稿）。本頁任何一句與它衝突，**以它為準**，並回報那一句。
 > **這頁只講「怎麼開始」** —— 環境、憑證、字典、開座位、誰跑哪一段。
 > **怎麼畫**（每種元件能改什麼、值從哪選、寫在哪）全在座位手冊 [seat-guide](seat-guide.md)，這裡不重複。
-> 座位**只碰 Hauzii Builder 的 MCP 工具**，不需要下載任何程式、不需要本機環境。
+> 座位**只碰 YITA Builder 的 MCP 工具**，不需要下載任何程式、不需要本機環境。
 
 ---
 
@@ -33,7 +33,7 @@
 
 ---
 
-## 2. 第一次設定：接上 Hauzii Builder（做一次就好）
+## 2. 第一次設定：接上 YITA Builder（做一次就好）
 
 座位需要的只有**一條 MCP 連線**：`https://builder.hauzii.com/mcp`。**不用 key、不用設定檔** —— 第一次叫工具時會開瀏覽器，用 Google 帳號登入。
 
@@ -108,7 +108,7 @@ block-get-dictionary {}
 ```
 
 - ⚠️ **token 字典一定要分章讀**：整份很大，超過單次回應上限會**被無聲截斷、不報錯** —— 你以為讀完了其實只看到一半。
-- ⚠️ **版本**：需要站上 Hauzii Canvas plugin ≥ **2.6.4**；舊站會回 `404 unknown_endpoint` —— 請站主先更新 plugin。
+- ⚠️ **版本**：需要站上 YITA plugin ≥ **2.6.4**；舊站會回 `404 unknown_endpoint` —— 請站主先更新 plugin。
 - ⚠️ 不帶 `design_set` 拿到的是**站台 default 那本**。那頁若有自己一本 Design Set，要帶 `design_set: "<那本的 slug>"`；拿 default 去畫 page-set 那頁，值會是別本的。
   ⚠️ **目前沒有工具能回「某頁指派了哪本」** —— 問站主，或看 `design-list-sets`。
 - ⚠️ **不必先抓前台讓樣式重生**：工具自己會重生；每次呼叫拿到的就是現在的值。
@@ -302,7 +302,7 @@ design-locate-style-layer { page_id: <頁ID>, css: "<畫稿全文>", apply: true
 
 | 症狀 | 多半是 |
 |---|---|
-| 找不到 Hauzii Builder 的工具 | 沒重開 Claude Code（§2-1） |
+| 找不到 YITA Builder 的工具 | 沒重開 Claude Code（§2-1） |
 | 叫工具時跳出要你登入 | 還沒登入、登入過期，或另一個視窗用同一個帳號重新登入過（§2-3） |
 | playbook 說有某個參數，我的工具沒有 | 你的 session 比最近一次 builder 更新舊 → 重開 session |
 | 改了草稿層前台沒變 | 整頁快取 → 網址加 `?x=<隨機數>` 再看 |

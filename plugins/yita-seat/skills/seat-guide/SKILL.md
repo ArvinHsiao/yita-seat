@@ -1,6 +1,6 @@
 ---
 name: seat-guide
-description: "給畫圖 AI 的說明書：一頁草稿頁上，每種元件能改什麼、值從哪選、寫在哪、怎麼自驗。窮舉式，這份就是 lint 的判準、也是 ③ 寫回的對照表。MCP 座位版（只用 Hauzii Builder 工具）。"
+description: "給畫圖 AI 的說明書：一頁草稿頁上，每種元件能改什麼、值從哪選、寫在哪、怎麼自驗。窮舉式，這份就是 lint 的判準、也是 ③ 寫回的對照表。MCP 座位版（只用 YITA Builder 工具）。"
 ---
 
 # 用 hz 標籤畫畫 — 座位手冊 v4
