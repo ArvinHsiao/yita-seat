@@ -1,0 +1,13 @@
+{
+  "name": "yita-seat",
+  "owner": {
+    "name": "Hauzii"
+  },
+  "plugins": [
+    {
+      "name": "yita-seat",
+      "source": "./plugins/yita-seat",
+      "description": "Hauzii 座位手冊:用 Hauzii Builder 的 MCP 工具排頁、畫樣式草稿層、回報收回。"
+    }
+  ]
+}

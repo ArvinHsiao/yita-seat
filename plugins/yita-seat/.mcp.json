@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "hauzii-builder": {
+      "type": "http",
+      "url": "https://builder.hauzii.com/mcp"
+    }
+  }
+}
