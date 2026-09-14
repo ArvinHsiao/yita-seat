@@ -3,6 +3,10 @@
     "hauzii-builder": {
       "type": "http",
       "url": "https://builder.hauzii.com/mcp"
+    },
+    "hauzii-builder-dev": {
+      "type": "http",
+      "url": "https://builder-dev.hauzii.com/mcp"
     }
   }
 }
