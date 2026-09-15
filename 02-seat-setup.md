@@ -13,7 +13,7 @@
 
 | 你怎麼讀手冊 | 開工前做什麼 |
 |---|---|
-| Claude Code 裝了 `yita-seat` plugin | 手冊隨 plugin 版本走；不確定是不是最新，就照 §2-1 重新安裝一次 |
+| Claude Code 裝了 `yita-seat` plugin | 手冊隨 plugin 版本走；照 §2-1 把 **auto-update** 打開過一次就會自動跟上。還沒開過 → 現在去開；開了仍沒跟上 → 照 §2-1 重新安裝一次 |
 | 其他工具用 GitHub 連接器讀 | 每次開工**重新讀** repo 裡的三本手冊，⛔ 不要沿用上次存下來的副本 |
 
 
@@ -47,6 +47,8 @@
 /plugin marketplace add https://github.com/ArvinHsiao/yita-seat
 /plugin install yita-seat@yita-seat
 ```
+
+裝完**把自動更新打開**（第三方 marketplace 預設是關的，開一次就好）：`/plugin` → Marketplaces → 選 `yita-seat` → **Enable auto-update**。之後手冊會跟著新版自動更新，不用再手打指令。
 
 **只要連線、不裝手冊**也可以：
 
