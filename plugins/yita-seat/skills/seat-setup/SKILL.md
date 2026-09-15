@@ -46,7 +46,7 @@ description: "第一次要跑「①排頁 ②畫 ③收回」時：怎麼接 YIT
 
 ### 2-1 Claude Code
 
-**建議：裝手冊 plugin**（會一起帶上 builder 連線與三本手冊）：
+**建議：裝手冊 plugin**（會一起帶上 `builder` / `builder-dev` 兩條連線與三本手冊）：
 
 ```
 /plugin marketplace add https://github.com/ArvinHsiao/yita-seat
@@ -56,10 +56,14 @@ description: "第一次要跑「①排頁 ②畫 ③收回」時：怎麼接 YIT
 **只要連線、不裝手冊**也可以：
 
 ```bash
-claude mcp add --transport http hauzii-builder https://builder.hauzii.com/mcp
+claude mcp add --scope user --transport http builder https://builder.hauzii.com/mcp
 ```
 
 ⚠️ **不加任何 `--header`** —— 連線靠登入，不靠 key。
+⚠️ **不加 `--scope user` 只在當下資料夾生效**。
+⚠️ **兩條路擇一，不要都做** —— 已裝外掛又手動加一條同名 `builder`，手動那條會安靜蓋掉外掛那條。
+⚠️ **裝之前先清掉同名的舊條目** —— 專案資料夾 `.mcp.json` 裡同名、帶 header（key）的條目，會安靜蓋掉你新裝的連線；user 層手動加過的同名條目也一樣。`disabledMcpjsonServers` 只管得到 `.mcp.json`，管不到 user 層。舊版外掛與舊教學用過的連線名（名字裡帶 `hauzii` 的那兩條）也一併清掉。
+⚠️ **清掉舊條目後，先重開 Claude Code 再登入** —— 同一個 session 裡，已經移除的條目還會列在 `/mcp`，登入也會回「Authentication successful」，但實際登入的是舊條目。
 ⚠️ **裝完要重開 Claude Code** —— 工具清單是 session 啟動時載入的，不重開看不到新工具。
 
 ### 2-2 其他工具（Claude Desktop / ChatGPT / Codex …）
@@ -76,8 +80,10 @@ claude mcp add --transport http hauzii-builder https://builder.hauzii.com/mcp
 | 站名與網址 | 你的帳號只管一個站，之後都自動用它 | 開工 |
 | 「站不明確」並列出好幾個站（`site_id` / 名稱 / 網址） | 你的帳號管好幾個站 | 開工先跟 AI 講要做哪個站；之後每支工具都帶那個站的 `site_id` |
 | 要你登入 | 還沒登入或登入過期 | 照瀏覽器跳出的頁面用 Google 登入 |
+| 回了站名，但沒跳出登入、也不是你要的站 | 還在吃舊的 key —— 同名舊條目帶著 key 蓋掉了新連線 | 照 §2-1 清掉同名舊條目 → 重開 Claude Code → 再登入 |
 
-⚠️ **同一個帳號在兩個視窗各自登入，後登入的那個會讓先前那個失效**（先前的視窗叫工具會要你重新登入）。這是設計如此，不是壞掉。
+⚠️ **同一台電腦開好幾個視窗，共用同一次登入、不會互踢**（2026-09-15 實測）。不同電腦用同一個帳號登入時會怎樣：**待確認**。
+⚠️ **登入不會自動續期**（沒有 refresh token）：過期了就照瀏覽器跳出的頁面重新登入一次。這是設計如此，不是壞掉。
 
 ### 2-4 權限起手清單
 
@@ -88,7 +94,9 @@ claude mcp add --transport http hauzii-builder https://builder.hauzii.com/mcp
 `block-set-image`／`block-set-button`／`block-set-geometry`／`block-set-slot-visibility`／`block-set-repeater-visibility`／
 `design-lint-style-layer`／`design-locate-style-layer`
 
-⚠️ 這是**起手清單**，不是權限表 —— 實際工具名以你那條 `hauzii-builder` 連線列出來的為準。
+權限設定裡要填**完整工具名**：`mcp__plugin_yita-seat_builder__` 加上工具名（例：`mcp__plugin_yita-seat_builder__site-get-info`）；要一次放行整條連線，就填 `mcp__plugin_yita-seat_builder`。
+
+⚠️ 這是**起手清單**，不是權限表 —— 實際工具名以你那條 `builder` 連線列出來的為準。
 
 
 ---
@@ -101,7 +109,7 @@ claude mcp add --transport http hauzii-builder https://builder.hauzii.com/mcp
 | 字典 | 是什麼 | 怎麼拿 |
 |---|---|---|
 | **token 字典**（樣式層字典） | 這個站每個「字」（`color.07`、`typo.03`…）的意思、變數名、現值 | `design-get-dictionary`：先不帶參數看目錄（`format:"index"`），再 `format:"md"` + `domain:"<章名>"` 逐章讀 |
-| **block 字典** | 這個站裝了哪些 block、各適合放哪、有幾段文字幾張圖、能不能重複 | `block-get-dictionary`：不帶參數，一次讀完 |
+| **block 字典** | 這個站裝了哪些 block、各適合放哪、有幾段文字幾張圖、能不能重複 | `block-get-dictionary`：不帶參數叫一次；在 Claude Code 會被存成檔案，照回應給的路徑用 `Read` 分段讀 |
 
 ```text
 # token 字典（站台那一本）
@@ -113,6 +121,7 @@ block-get-dictionary {}
 ```
 
 - ⚠️ **token 字典一定要分章讀**：整份很大，超過單次回應上限會**被無聲截斷、不報錯** —— 你以為讀完了其實只看到一半。
+- ⚠️ **block 字典一次讀不下**：在 Claude Code 呼叫 `block-get-dictionary`，結果太大（約 910 KB）會被存成檔案，回應只給存檔路徑 —— 照那個路徑用 `Read` 分段讀完，⛔ 不要只看回應裡的片段就開工。
 - ⚠️ **版本**：需要站上 YITA plugin ≥ **2.6.4**；舊站會回 `404 unknown_endpoint` —— 請站主先更新 plugin。
 - ⚠️ 不帶 `design_set` 拿到的是**站台 default 那本**。那頁若有自己一本 Design Set，要帶 `design_set: "<那本的 slug>"`；拿 default 去畫 page-set 那頁，值會是別本的。
   ⚠️ **目前沒有工具能回「某頁指派了哪本」** —— 問站主，或看 `design-list-sets`。
@@ -130,8 +139,8 @@ block-get-dictionary {}
 
 ```
 你是座位。先讀座位手冊 seat-guide（用 Read 工具讀檔，不要 cat），讀完等我聊專案。
-排頁、畫、看結果都用 hauzii-builder 這條連線的工具。
-開工先拿兩本字典：design-get-dictionary（值，先 format:"index" 看章再逐章讀）、block-get-dictionary（block，一次讀完）。
+排頁、畫、看結果都用 builder 這條連線的工具。
+開工先拿兩本字典：design-get-dictionary（值，先 format:"index" 看章再逐章讀）、block-get-dictionary（block，存成檔案就用 Read 分段讀完）。
 卡住就問我。
 ```
 
@@ -308,7 +317,8 @@ design-locate-style-layer { page_id: <頁ID>, css: "<畫稿全文>", apply: true
 | 症狀 | 多半是 |
 |---|---|
 | 找不到 YITA Builder 的工具 | 沒重開 Claude Code（§2-1） |
-| 叫工具時跳出要你登入 | 還沒登入、登入過期，或另一個視窗用同一個帳號重新登入過（§2-3） |
+| 叫工具時跳出要你登入 | 還沒登入、登入過期，或連線名改過（改名後要重新登入）（§2-3） |
+| 回了站名，但不是你要的站、也沒跳登入 | 還在吃舊的 key：同名舊條目蓋掉了新連線（§2-1 清掉 → 重開 → 再登入） |
 | playbook 說有某個參數，我的工具沒有 | 你的 session 比最近一次 builder 更新舊 → 重開 session |
 | 改了草稿層前台沒變 | 整頁快取 → 網址加 `?x=<隨機數>` 再看 |
 | 字典裡的值跟前台對不上 | 你手上那份是之前讀的 → 重新呼叫 `design-get-dictionary`（§3） |
