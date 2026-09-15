@@ -122,14 +122,11 @@ block-browse { "filters": {} }                                 # 先看全貌，
 **另開一個 session**，第一句話貼這段：
 
 ```
-你是座位。先讀 01-seat-rules（要牢記），再把 02-seat-setup 讀一次；畫的時候翻 03-page-draw-guide。讀檔用 Read 工具，不要 cat。
-排頁、畫、收回這一輪都用 builder-dev 這條連線的工具（見 01-seat-rules 規則下方的「這一輪的現況」）。工具怎麼叫先問 playbook-get name="lite-index"。
-開工先拿 token 字典（design-get-dictionary，先 format:"index" 看章再逐章讀）；挑 block 用 block-browse。
-卡住就問我。
+站是 <站>（site_id <…>），連 builder-dev。畫一頁 <什麼頁>。
 ```
 
 
-- ⚠️ **手冊與字典要用 `Read` 工具讀，⛔ 不要用 Bash `cat`** —— `cat` 會超過 Bash 輸出上限被截斷，座位以為讀完了其實少一截。這句話已經寫進上面那段開場詞裡了。
+- ⚠️ **手冊與字典要用 `Read` 工具讀，⛔ 不要用 Bash `cat`** —— `cat` 會超過 Bash 輸出上限被截斷，座位以為讀完了其實少一截。
 - **座位 ①②③ 是同一個 session**（它排的頁、它自己畫、它自己收，中間不換人）。
 - 座位**不 commit、不 deploy、不動 plugin**。
 - 它會在每一段走完停下來給你前台網址，等你說話（四段定義在 [03-page-draw-guide](03-page-draw-guide.md) §0）。⭐ 它**聽不準會先問你**，那是刻意的 —— 回一句比讓它猜著畫一版便宜。
