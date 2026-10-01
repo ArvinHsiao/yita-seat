@@ -2,11 +2,11 @@
   "mcpServers": {
     "builder": {
       "type": "http",
-      "url": "https://builder.hauzii.com/mcp"
+      "url": "https://builder.yita.dev/mcp"
     },
     "builder-dev": {
       "type": "http",
-      "url": "https://builder-dev.hauzii.com/mcp"
+      "url": "https://builder-dev.yita.dev/mcp"
     }
   }
 }

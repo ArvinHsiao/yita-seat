@@ -35,7 +35,7 @@
 
 ## 2. 接線：接上 YITA Builder（做一次就好）
 
-座位需要的只有**一條 MCP 連線**：`https://builder.hauzii.com/mcp`。**不用 key、不用設定檔** —— 第一次叫工具時會開瀏覽器，用 Google 帳號登入。
+座位需要的只有**一條 MCP 連線**：`https://builder.yita.dev/mcp`。**不用 key、不用設定檔** —— 第一次叫工具時會開瀏覽器，用 Google 帳號登入。
 
 ⚠️ 你的 Google 帳號要在該站的使用者名單內，登入才會通。登入後說「沒有權限」→ 請站主把你的帳號加進那個站。
 
@@ -53,7 +53,7 @@
 **只要連線、不裝手冊**也可以：
 
 ```bash
-claude mcp add --scope user --transport http builder https://builder.hauzii.com/mcp
+claude mcp add --scope user --transport http builder https://builder.yita.dev/mcp
 ```
 
 ⚠️ **不加任何 `--header`** —— 連線靠登入，不靠 key。
@@ -61,11 +61,11 @@ claude mcp add --scope user --transport http builder https://builder.hauzii.com/
 ⚠️ **兩條路擇一，不要都做** —— 已裝外掛又手動加一條同名 `builder`，手動那條會安靜蓋掉外掛那條。
 ⚠️ **裝之前先清掉同名的舊條目** —— 專案資料夾 `.mcp.json` 裡同名、帶 header（key）的條目，會安靜蓋掉你新裝的連線；user 層手動加過的同名條目也一樣。`disabledMcpjsonServers` 只管得到 `.mcp.json`，管不到 user 層。舊版外掛與舊教學用過的連線名（名字裡帶 `hauzii` 的那兩條）也一併清掉。
 ⚠️ **清掉舊條目後，先重開 Claude Code 再登入** —— 同一個 session 裡，已經移除的條目還會列在 `/mcp`，登入也會回「Authentication successful」，但實際登入的是舊條目。
-⚠️ **裝完要重開 Claude Code** —— 工具清單是 session 啟動時載入的，不重開看不到新工具。
+⚠️ **裝完要重開 Claude Code** —— 工具清單是 session 啟動時載入的，不重開看不到新工具。builder 之後每次部署新版也一樣：**要整個重開**，`/clear` 不會重載工具定義。
 
 ### 2-2 其他工具（Claude Desktop / ChatGPT / Codex …）
 
-- **連線**：設定 → 連接器 → 自訂 → 網址填 `https://builder.hauzii.com/mcp`，一樣 Google 登入。
+- **連線**：設定 → 連接器 → 自訂 → 網址填 `https://builder.yita.dev/mcp`，一樣 Google 登入。
 - **手冊**：用 GitHub 連接器讀這份 repo 的 `01-seat-rules.md` / `02-seat-setup.md` / `03-page-draw-guide.md`。
 
 ### 2-3 確認通了
@@ -113,7 +113,7 @@ block-browse { "filters": {} }                                 # 先看全貌，
 ```
 
 - ⚠️ **token 字典一定要分章讀**：整份很大，超過單次回應上限會**被無聲截斷、不報錯** —— 你以為讀完了其實只看到一半。
-- ⚠️ 不帶 `design_set` 拿到的是**站台 default 那本**。那頁若有自己一本 Design Set，要帶 `design_set: "<那本的 slug>"`；拿 default 去畫 page-set 那頁，值會是別本的。不確定某頁指派了哪本 → 問站主，或看 `design-list-sets`。
+- ⚠️ 不帶 `design_set` 拿到的是**站台 default 那本**。那頁若有自己一本 Stylebook，要帶 `design_set: "<那本的 slug>"`；拿 default 去畫 page-set 那頁，值會是別本的。不確定某頁指派了哪本 → 問站主，或看 `design-list-sets`。
 - 每輪 ③ 寫回之後，**重新呼叫一次**就拿到新值；不必先抓前台讓樣式重生，工具自己會。
 - 兩個座位同時讀字典**不用互相通知** —— 讀取不會覆蓋任何東西。
 
@@ -124,7 +124,7 @@ block-browse { "filters": {} }                                 # 先看全貌，
 **另開一個 session**，第一句話貼這段：
 
 ```
-站是 <站>（site_id <…>），連 builder-dev。畫一頁 <什麼頁>。
+站是 <站>（site_id <…>），連 builder。畫一頁 <什麼頁>。
 ```
 
 
@@ -137,8 +137,8 @@ block-browse { "filters": {} }                                 # 先看全貌，
 
 ## 5. 跑起來之後你要做的事
 
-> ⭐ **新站的起手式**：先畫**首頁** → 拿首頁收 ③ 當**定調輪**（你畫的值就成為新的預設）→ **再畫其他頁**。
-> 後面的頁大多會直接吸附到剛定好的預設、題目自動變少。定調輪怎麼答見 [03-page-draw-guide](03-page-draw-guide.md) §C-3。
+> ⭐ **新站的起手式**：先畫**首頁**（最能代表這個站的那一頁）→ 收完 ③ → **再畫其他頁**。
+> 這只是順序建議；③ 每一頁的答法都一樣，都在 Stylebook Merge 頁答。
 
 1. **聊專案**：這頁要給誰看、要什麼感覺、有沒有現成文案與圖。
 2. **回答開場那一題**：座位會問「這頁**沿用**站上的字典，還是**全部新開**一套？」—— 不確定就答沿用（預設）。這個答案 ③ 會用到。
@@ -146,20 +146,20 @@ block-browse { "filters": {} }                                 # 先看全貌，
 4. **① 形狀**：看前台的形狀。逐顆說**留**或**換**。
 5. **② 感覺**：看長相。逐顆說**好**或**不好**。這裡還可以換 block。
 6. **內容**：文案圖片補齊，跑到 `page-audit` PASS。
-7. 你說 **yes** → 座位跑 ③，把題目用白話端給你答。
+7. 你說 **yes** → 座位跑 ③，給你一個**Stylebook Merge 頁網址**：打開看這一頁的畫面、逐題選好按送出，跟座位說一聲。
 
 ---
 
 ## 6. ③ 收回：開跑前備好什麼
 
-**③ 由座位跑、站主答題**（[01-seat-rules](01-seat-rules.md)）。兩支工具：`design-writeback-plan`（出題，反覆帶答案重產到可以執行）→ `design-writeback-apply`（寫回、清草稿層、驗收）。
+**③ 由座位跑、站主在 Stylebook Merge 頁答題**（[01-seat-rules](01-seat-rules.md)）。兩支工具：`design-writeback-plan`（出題 → 站主在 Stylebook Merge 頁送出 → 帶 `answers_from_site` 重產，反覆到可以執行）→ `design-writeback-apply`（寫回、清草稿層、驗收）。
 
 開跑前四件事：
 
 1. **頁面已公開** —— 工具抓的是訪客看得到的前台，草稿 / 私人頁抓不到（② 畫之前就要公開，對位也一樣）。
 2. **草稿層還在** —— 畫完別自己清，那是 ③ 的材料。
 3. **在對話裡告知站主**要收哪一頁；**同站一次一頁**。
-4. **怎麼問站主**看 [03-page-draw-guide](03-page-draw-guide.md) §C-3；拒跑、partial、續跑這些工具行為看 `playbook-get name="guide/design/writeback"`。
+4. **怎麼跟站主交接（Stylebook Merge 頁網址、等送出）**看 [03-page-draw-guide](03-page-draw-guide.md) §C-3；拒跑、partial、續跑這些工具行為看 `playbook-get name="guide/design/writeback"`。
 
 ---
 
@@ -170,7 +170,7 @@ block-browse { "filters": {} }                                 # 先看全貌，
 | 找不到 YITA Builder 的工具 | 沒重開 Claude Code（§2-1） |
 | 叫工具時跳出要你登入 | 還沒登入、登入過期，或連線名改過（改名後要重新登入）（§2-3） |
 | 回了站名，但不是你要的站、也沒跳登入 | 還在吃舊的 key：同名舊條目蓋掉了新連線（§2-1 清掉 → 重開 → 再登入） |
-| playbook 說有某個參數，我的工具沒有 | 你的 session 比最近一次 builder 更新舊 → 重開 session |
+| playbook 說有某個參數，我的工具沒有 | 你的 session 比最近一次 builder 更新舊 → **整個重開 Claude Code**（`/clear` 不會重載工具定義） |
 | 工具回 `page_not_public` | 那頁還是草稿 / 私人 → 請站主（或經同意）把頁面公開再試（§6 第 1 條） |
 | 工具回 `plugin_version_too_old` 或 `404 unknown_endpoint` | 站上 YITA plugin 太舊 → 請站主先更新 plugin |
 | 工具說錯了、回了一個看不懂的碼 | 先照回應裡的 `hint` / `details` 改；碼的意思問 `playbook-get`（對位的碼在 `guide/design/locate`） |
