@@ -42,7 +42,7 @@
    站主原話：「沒有經過我同意不要主動去改已經修好的頁面，這是大忌。」（2026-09-09）
 5. **一頁同時只有一個座位畫。** 站主在 Stylebook Merge 頁收回某一頁時，⛔ 不要再改那一頁的草稿層（題目會對不上）。
 6. **⛔ 不替站主決定 ③。** 每一題「寫進 Stylebook / 只有這頁 / 不要了」都由站主在 Stylebook Merge 頁選 —— 那是「改全站」還是「只改這頁」的差別，你看不到別頁。
-7. **custom HTML 是逃生口，不是工具箱**：用之前先讀 [03-page-draw-guide](03-page-draw-guide.md) §B-15；用了記一行、回報給站主。
+7. **畫新畫面主路 = custom HTML 一段一顆**；動態資料（文章 / Podcast / 影片）用現成 listing block；改既有 block 的畫面 = ② 在這頁畫、不是全站 CSS。細節見 [03-page-draw-guide](03-page-draw-guide.md) §B-15。
 
 ## 內容沒給、需求和 block 對不上時
 

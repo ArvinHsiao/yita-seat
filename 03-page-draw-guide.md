@@ -287,15 +287,15 @@ token 字典用 `design-get-dictionary`（[02-seat-setup](02-seat-setup.md) §3�
 - 對不到任何一條 → **殘留**（畫面上有、寫不回系統）。殘留清單是你的產出，回答「這個設計系統還缺哪些字」。
 - 各類值的待遇（snap / exact / add）與開關 → `guide/design/writeback`。
 
-### B-15 custom HTML —— 逃生口，不是工具箱
+### B-15 custom HTML —— 主路寫法要點
 
-> 站主 2026-09-09 定調、2026-09-10 收窄。[01-seat-rules](01-seat-rules.md) 只放一句指過來，**規矩的主人在這一節**。
+> 站主 2026-10-18 改路線：畫新畫面的主路是 custom HTML。[01-seat-rules](01-seat-rules.md) 只放一句指過來，**規矩的主人在這一節**。
 
-- **什麼情況可以用、誰能用 —— 先留白**（等看過實際用法再定）。⛔ 不要自己補一套規則。
-- **它不吃 token**（顏色 / 字級是死值，③ 收不回）—— 已知的路，⛔ 不必每次提醒站主。顏色仍盡量寫 `var(--hz-color-NN)`。
-- **用了就記一行**（硬要求，那一行就是日後轉成正式 block 的需求單），寫在回報裡：
+- **一段（section）一顆**，各自帶自己的 `<style>`；圖片先佔位；交付時由站主到後台 Stylebook Convert 轉成結構化。
+- 顏色仍盡量寫 `var(--hz-color-NN)`。
+- **動態資料找不到合適的 listing block 才記一行**（寫缺哪種 block），寫在回報裡；其餘情況不記：
   ```
-  custom-html | <站> | <頁 id / slug> | <第幾段> | 為什麼沒有合適的 block（一句）
+  custom-html | <站> | <頁 id / slug> | <第幾段> | 缺哪種 listing block（一句）
   ```
 - ⛔ 不准 `100vw`（會多一條橫向捲軸），滿寬用 `width: 100%`；RWD 用 `@container`，不用 `@media`。
 - **轉成本站私有 block**：轉換一律請站主到後台 Stylebook Convert 頁做（座位沒有轉換工具；轉換、存入 Stylebook、撤銷都在那一頁）；轉完怎麼用一般 block 工具改，見 `guide/block/demo-convert`。
@@ -388,7 +388,7 @@ token 字典用 `design-get-dictionary`（[02-seat-setup](02-seat-setup.md) §3�
 4. 哪顆 block 光改長相救不了（結構問題，含斷行停手的）
 5. 手冊哪裡看不懂、哪裡靠猜
 6. **動效與 hover 的歸屬**：哪些是模板**自己帶的**、哪些是**你設的**（你的草稿層裡有那一條才是你的）。
-7. 用了 custom HTML 的那一行（§B-15）
+7. 缺 listing block 的那一行（若有，§B-15）
 
 ---
 
