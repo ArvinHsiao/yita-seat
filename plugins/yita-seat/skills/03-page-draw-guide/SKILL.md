@@ -22,11 +22,11 @@ description: "畫的時候翻：一頁草稿頁上每種元件能改什麼、畫
 
 | 段 | 你做什麼 | 用什麼 | 不做什麼 | 給站主看什麼 |
 |---|---|---|---|---|
-| **0 骨架** | 先問一題：「這頁**沿用**站上的字典，還是這頁**全部新開**？」（§A-1，沒說就是沿用）→ 列段落清單：每段一句用途 + 候選 block 1–2 顆 | `block-browse`（六軸交集篩到 ≤10 顆；叫法 `guide/block/browse`） | 不插、不建頁 | 清單 + 沿用 / 新開。站主點頭才開始 |
+| **0 骨架** | 列段落清單：每段一句用途 + 候選 block 1–2 顆（沿用還是新開不用你問，見 §A-1） | `block-browse`（六軸交集篩到 ≤10 顆；叫法 `guide/block/browse`） | 不插、不建頁 | 清單。站主點頭才開始 |
 | **① 形狀** | 建頁（**建頁即公開**；不想被搜到設 noindex，看 `guide/rank-math`）、插 block、調 repeater 格數、藏多餘格、欄數、錨點；**站主已給的文字**一起填 | `page-batch` 一趟送完（op 名就是工具名，看 `guide/page`「批次寫入」） | **不寫新文案**；沒給文字 / 圖的槽留模板示範內容（這段不是問題，見 §B-7b）；不寫草稿層 | 前台網址 + 「哪幾顆請你看形狀」。站主逐顆說**留 / 換** |
 | **② 感覺** | 寫草稿層（色、字、留白、按鈕、動效、漸層與純色底）；背景**圖 / 影片**走 `block-set-surface`；送出後看 `lint_summary` + `design-get-canvas` 回讀（開瀏覽器的時機見 §C-1） | §A–§C | 不改 HTML、不 `!important`、不碰 token | 網址 + lint summary。站主逐顆說**好 / 不好**。⚠️ 畫不出來就回報，⛔ 不要自己翻別的 block 來套；但站主說換 block 就換、換完重畫。**動到 header / footer 要單獨列一段「H/F 改了什麼」**（§B-1） |
 | **內容** | 補齊文案、圖、連結（站主沒給的文案 / 圖 / 連結 ⇒ 照 [01-seat-rules](../01-seat-rules/SKILL.md)〈內容沒給、需求和 block 對不上時〉填一眼可辨的佔位、回報逐條列出，⛔ 不停下等）；跑 `page-audit` 到 PASS；**到前台逐槽看一次**（§B-7b） | `page-batch`、`block-set-image`、`block-set-button` | 不再動形狀與草稿層（要動就回到那一段說一聲） | 完整頁。站主說 **yes** |
-| **③ 收回** | `design-writeback-plan`（不帶答案）→ 把**Stylebook Merge 頁網址**給站主 → 站主說送出了 → `design-writeback-plan { answers_from_site: true }`，有新題再給網址，直到可以執行 → `design-writeback-apply`（§C-3） | `design-writeback-plan` / `design-writeback-apply` | ⛔ 不在對話裡逐題問、⛔ 不替站主選、⛔ 不自己用 `design-update-token` 照計畫書一筆一筆打 | Stylebook Merge 頁網址；收完回報 outcome 與前台網址 |
+| **③ 收回** | **③ 收回請站主到後台 Stylebook Merge 頁做**：把**Stylebook Merge 頁網址**給站主，出題、作答、寫入、撤銷寫入都在那一頁（§C-3） | （無 —— 座位不呼叫任何收回工具） | ⛔ 不在對話裡逐題問、⛔ 不替站主選、⛔ 不自己用 `design-update-token` / `block-set-style` 把草稿層一筆一筆「手動收回」、⛔ 站主收完之前不再改這頁草稿層 | Stylebook Merge 頁網址；站主收完後看一次前台 |
 
 - **讀手冊與字典用 `Read` 工具，⛔ 不要 `cat`**（超過 Bash 輸出上限會被截斷，你會以為讀完了）。
 - **文字一句話**：有給的就填，沒給的不編。形狀沒定之前不寫新字。
@@ -64,14 +64,7 @@ description: "畫的時候翻：一頁草稿頁上每種元件能改什麼、畫
 ⭐ **② 的主要動作是「寫一段 CSS、送一次」。** 發現自己用一長串 MCP 呼叫做「幾行 CSS 就好」的事，停下來回報。
 ⭐ **除了背景圖 / 影片與內容以外，看得到的東西一律用普通 CSS 直接寫**；純色寫 hex、漸層直接畫（§B-1），③ 會替你開色票、翻成 block 資料。收不回是系統缺口，回報就好。
 
-**開場先問：沿用還是新開？**
-
-| 答案 | 意思 | 差在哪 |
-|---|---|---|
-| **沿用**（預設） | 跟全站同一套字，改一個字全站跟著變 | 一樣直接寫你要的值 |
-| **新開** | 這頁要一套自己的長相 | 畫法一樣；③ 把這輪的值收成**這頁自己的一套** |
-
-排 block 之前問，最晚第二步開始前要有答案；寫進 §D 的 `mode`。**scope 你不用想**：哪些影響全站、哪些只這頁、要不要開新字，全由 ③ 看值分類後問站主。
+**沿用還是新開：在 Stylebook Merge 頁開始回收時選（併進現有 Stylebook / 這頁全部新開一本）。** 由站主在那一頁選，座位不用問、也不用記；畫法兩種都一樣，直接寫你要的值。站主若先跟你說「這頁要一套自己的長相」，交網址時提醒他在那一頁選「這頁全部新開一本」。**scope 你不用想**：哪些影響全站、哪些只這頁、要不要開新字，全由 ③ 看值分類後問站主。
 
 ### A-2 選擇器：你怎麼寫都行，對位會翻（2026-09-07 起）
 
@@ -117,7 +110,7 @@ token 字典用 `design-get-dictionary`（[02-seat-setup](../02-seat-setup/SKILL
 
 ### A-5 坑
 
-1. h1–h6 字級直接寫 `font-size` / `font-weight` / `line-height`，對位會補內部變數（`--_hz-fs` 那三個是輸出，⛔ 不是你寫的）。
+1. h1–h6 字級直接寫 `font-size` / `font-weight` / `line-height`，對位會補內部變數（`--_hz-fs` 那三個是輸出，⛔ 不是你寫的）。只寫那三個變數、不寫真屬性會被擋（`heading_var_unpaired`）—— 寫在標題本身、用真屬性。
 2. ⭐ **改了桌機字級，就一定要交代平板 / 手機**，不寫會被擋（`ladder_undecided`）。二選一：
    - **① 自己寫**：同一條再包進字典宣告的兩個斷點（目前 `@media (max-width: 1023px)` / `(max-width: 767px)`，以字典 typography 章的 `breakpoints` 為準）。寫別的寬度會被擋（`breakpoint_not_wp`）。
    - **② 交給機器**：畫稿**最前面加一行** `/* hz-ladder: follow */`（整份畫稿的字級都跟階梯），或在某一條規則裡寫 `--hz-ladder: follow;`（只管那一條，優先於檔頭）。③ 照這格原本的桌機:平板:手機比例推。⚠️ ② 階段前台的平板 / 手機仍吃桌機字級，是正常的；要在 ② 就看手機樣子就用 ①。
@@ -143,7 +136,7 @@ token 字典用 `design-get-dictionary`（[02-seat-setup](../02-seat-setup/SKILL
 
 - **地址** `[data-hz-surface="hero.bg"]`（section 級多半叫 `section.bg`）
 - **內容**（`block-set-surface`）：背景**圖 / 影片**、清背景、響應式 `media`、遮罩 `overlay`。叫法與坑 → `guide/block/surface-modes`（換 preset 與背景的關係、遮罩要半透明、換圖要帶遮罩都在那）。
-- ⚠️ **背景圖前台沒有 alt**（它是 CSS 背景，不是 `<img>`）。有 alt 時，`page-get-structure` 回讀與 `block-set-surface` 回應會在同一層帶 `alt_rendered: false` + `alt_note` 提醒（站台外掛太舊時回讀只列 alt、不會帶 `alt_note`，別把沒提醒當成前台有 alt）；只有 `site-upload-media` 上傳時不會提醒。圖上有要讓人讀到的資訊，改放內容圖槽（B-6，前台有 alt）或寫進旁邊的文字。
+- ⚠️ **背景圖前台沒有 alt**（它是 CSS 背景，不是 `<img>`）。有 alt 時，`page-get-structure` 回讀與 `block-set-surface` 回應會在同一層帶 `alt_rendered: false` + `alt_note` 提醒（站台外掛太舊時回讀只列 alt、不會帶 `alt_note`，別把沒提醒當成前台有 alt）；只有用上傳圖片的工具上傳時不會提醒（正式連線目前是 builder 的 `site-upload-media`；拆線後在 desk 連線叫 `upload-media`）。圖上有要讓人讀到的資訊，改放內容圖槽（B-6，前台有 alt）或寫進旁邊的文字。
 - **遮罩（`block-set-surface` 的 `overlay`）只收一個顏色**（`rgba(…)`、8 碼 hex 或 token），不收漸層。
 - **長相**（`surface.NN` 看 class `hz-surface-surface-NN`）：`--hz-surface-NN-bg` / `-border` / `-border-width` / `-radius` / `-shadow` / `-overlay` / `-overlay-alpha`
   - 整頁：`:root { --hz-surface-09-bg: #F6F1E8; }`
@@ -310,6 +303,7 @@ token 字典用 `design-get-dictionary`（[02-seat-setup](../02-seat-setup/SKILL
   custom-html | <站> | <頁 id / slug> | <第幾段> | 為什麼沒有合適的 block（一句）
   ```
 - ⛔ 不准 `100vw`（會多一條橫向捲軸），滿寬用 `width: 100%`；RWD 用 `@container`，不用 `@media`。
+- **轉成本站私有 block**：轉換一律請站主到後台 Stylebook Convert 頁做（座位沒有轉換工具；轉換、存入 Stylebook、撤銷都在那一頁）；轉完怎麼用一般 block 工具改，見 `guide/block/demo-convert`。
 
 ---
 
@@ -363,44 +357,36 @@ token 字典用 `design-get-dictionary`（[02-seat-setup](../02-seat-setup/SKILL
 - **一顆 block 可能有兩層面**（外層 section 面 + 內層卡片）：換外層的面，裡面那層不會跟著走 —— 換深底時最致命（淺卡留在深底上），順便看它的內距。
 
 
-### C-3 ③ 收回：你跑工具、站主在 Stylebook Merge 頁答題
+### C-3 ③ 收回：請站主到後台 Stylebook Merge 頁做
 
-> 規矩（誰決定、同站一次一頁、跑前告知站主）在 [01-seat-rules](../01-seat-rules/SKILL.md)；工具行為（拒跑、partial、續跑、題型、讀站上答案的失敗碼、Stylebook Merge 頁打不開時的備用問法）在 `guide/design/writeback`。**這一節只講你和站主怎麼交接。**
+> 規矩（誰決定）在 [01-seat-rules](../01-seat-rules/SKILL.md)；同一句說法也在 `guide/design/writeback`。**這一節只講你和站主怎麼交接。**
 
-**跑之前**：頁面已公開、草稿層還在（畫完別自己清）、在對話裡跟站主說要收哪一頁。`mode` 帶開場那一題的答案（沿用 = `reuse`、新開 = `fresh`）。
+**③ 收回請站主到後台 Stylebook Merge 頁做** —— 出題、作答、寫入、撤銷寫入都在那一頁；**座位不呼叫任何收回工具。**
 
-**每一頁的流程都一樣**：
+**交網址之前**：頁面已公開、草稿層還在（畫完別自己清）。
 
-1. `design-writeback-plan`（**不帶答案**）→ 產出題目、存計畫書。
-2. 把**Stylebook Merge 頁網址**給站主（`<站台網域>/wp-admin/admin.php?page=hauzii-token-decision&page_id=<N>`），說這頁有幾題、請他作答後按送出、送出了說一聲。每題預設「先不寫」。
-3. 站主說送出了 → `design-writeback-plan { page_id, answers_from_site: true }`。
-4. 還有新題（答案改變了比對基準，正常）→ 回到 2；`ready_to_apply: true` 才 `design-writeback-apply`。
+**每一頁的交接都一樣**：
 
-**⛔ 不在對話裡逐題問，⛔ 不替站主選，⛔ 不自己另外帶 `answers` 蓋掉站主的答案。** 選項的差別是「改全站」還是「只改這頁」，站主看得到的東西（別頁、之後還想不想共用）你看不到。
+1. 把**Stylebook Merge 頁網址**給站主（`<站台網域>/wp-admin/admin.php?page=hauzii-token-decision&page_id=<N>`；WordPress 裝在子目錄時請站主從後台 **YITA 選單 → Stylebook Merge** 進去）。
+2. 跟站主說：「這一頁的樣式可以收回了，請到 Stylebook Merge 頁收回；題目在那頁答，寫入、撤銷寫入也都在那一頁。」
+3. 站主收完之前，⛔ 不要再改這一頁的草稿層（題目會對不上）。收完後看一次前台。
 
-**站主會看到的五種選項**（講給站主聽用這些名字，⛔ 不唸 `overwrite` / `merge:`）：
+**⛔ 不在對話裡逐題問，⛔ 不替站主選。** 選項的差別是「改全站」還是「只改這頁」，站主看得到的東西（別頁、之後還想不想共用）你看不到。
 
-- **併入 ○○**：改綁到字典裡差不多的那一格
-- **改這個 Token**：改共用的那個字 —— 這頁吃 default 時**全站一起變**；這頁有自己那本時只改那本（見下方「寫進哪一本」）
-- **開新 Token**：開一格新的、只給這頁用
-- **先不寫**：這一行**留在草稿**、畫面照舊，下一輪再問（預設）
-- **不要了**：這一行**從草稿拿掉**、畫面回到原樣
+**站主問起那一頁的選項時**，照這三個去向講（⛔ 不唸 `overwrite` / `merge:` 這些代號）：
 
-> ⭐⭐ **「不要了」會把一組設計拆一半**：hero 的深色漸層底寫進去了，三個淺色文字卻選「不要了」⇒ 深底深字。
-> 1. 值不在字典裡的題，建議「開新 Token」；有近似色時建議「併入」。
-> 2. 「不要了」只在整顆元素 / 整區都不要時才選；拿不定就選「先不寫」。
+- **寫進 Stylebook**：全站共用 —— 併進現有那一格，或開一格新的、寫目前畫面上的值
+- **只有這頁**：留在這一頁自己的自訂段，別頁不受影響
+- **不要了**：這一條拿掉，畫面回到原樣
 
-**寫進哪一本**：頁有自己一本時（計畫書 `page_set` 有值），**收回一律寫那本；default 不動**（新開的格也開在那本）。所以這時「改這個 Token」**就是「只有這頁」**—— Stylebook Merge 頁那行字會寫「只改這頁那本」、不印全站幾頁在用；站主要「只有這頁」就選它，⛔ 不必找「另開一個」的選項（沿用模式下本來就沒有）。apply 的 log 每筆有 `design_set_sent` / `design_set_landed`，對不上會標 `design_set_mismatch` —— 看到就停、回報。
+> ⭐⭐ **「不要了」會把一組設計拆一半**：hero 的深色漸層底寫進去了，三個淺色文字卻選「不要了」⇒ 深底深字。拿不定就選「只有這頁」。
 
-**apply 停在某筆時**（`outcome: fail`）：先看回應的 `next_action`（之後再問就叫 `design-writeback-lock-status { page_id }` 看它的 `next_action`）—— 它講停在第幾筆、什麼原因、指路在哪；照著先處理那一筆，再同一個 page_id 呼叫 apply 續跑。⛔ 不要自己「把已完成的拿掉」重編計畫書。
-
-**收完回報**：`outcome`（ok / partial / fail / verify_failed）＋前台網址＋殘留清單。partial / fail 先照 playbook 處理，⛔ 不要自己清草稿層。
+收完之後草稿層會清空；沒收成 token 的規則原文搬進這頁的自訂段（標「③ 搬來」），前台長相不變。
 
 ## D. 回報
 
-0. **`mode`：`沿用` / `新開`**（§A-1）—— 每次都要有；忘了問就回頭補問。
 0a. 呼叫記帳：到站主第一次看到畫面共幾趟；哪幾趟是補呼叫、為什麼
-0b. **③ 問了幾題**（題數多 = 用了很多新的值，不代表你做錯）
+0b. **③ 交接了沒**：Stylebook Merge 頁網址給了站主沒（③ 由站主在那一頁做，座位不呼叫收回工具）
 1. 改了哪幾條、各是為了什麼。⭐ **每一輪送之前先兩三句講「這輪要改哪幾條」＋ 貼草稿層全文原樣**；做完再貼最終版。量測表放附錄。
 2. `lint_summary`（最後一次送出的）＋ 交件前總對帳的量值（桌機 / 手機寬度）
 3. 想做但表上沒有、字典沒字的（最重要的一項）

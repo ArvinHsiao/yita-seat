@@ -7,6 +7,10 @@
     "builder-dev": {
       "type": "http",
       "url": "https://builder-dev.yita.dev/mcp"
+    },
+    "desk-dev": {
+      "type": "http",
+      "url": "https://builder-dev.yita.dev/desk/mcp"
     }
   }
 }

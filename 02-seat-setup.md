@@ -41,7 +41,7 @@
 
 ### 2-1 Claude Code
 
-**建議：裝手冊 plugin**（會一起帶上 `builder` / `builder-dev` 兩條連線與三本手冊）：
+**建議：裝手冊 plugin**（會一起帶上 `builder` / `builder-dev` 兩條連線與三本手冊；另有一條維護者用的 `desk-dev`，見下方維護者段）：
 
 ```
 /plugin marketplace add https://github.com/ArvinHsiao/yita-seat
@@ -89,8 +89,9 @@ claude mcp add --scope user --transport http builder https://builder.yita.dev/mc
 `site-get-info`／`playbook-get`／`design-get-dictionary`／`block-browse`／`block-get-template`／`page-clone`／`page-batch`／`page-get-structure`／
 `page-audit`／`block-inspect`／`block-update-content`／`block-set-surface`／`block-set-style`／`block-set-image`／`block-set-button`／
 `block-set-geometry`／`block-set-slot-visibility`／`block-set-repeater-visibility`／`wp-rest`／
-`design-locate-style-layer`／`design-lint-style-layer`／`design-update-style-layer`／`design-token-usage`／
-`design-writeback-plan`／`design-writeback-apply`
+`design-locate-style-layer`／`design-lint-style-layer`／`design-update-style-layer`／`design-token-usage`
+
+（③ 收回不在這張清單：③ 收回請站主到後台 Stylebook Merge 頁做，座位不呼叫任何收回工具。）
 
 權限設定裡要填**完整工具名**：`mcp__plugin_yita-seat_builder__` 加上工具名（例：`mcp__plugin_yita-seat_builder__site-get-info`）；要一次放行整條連線，就填 `mcp__plugin_yita-seat_builder`。
 
@@ -141,25 +142,24 @@ block-browse { "filters": {} }                                 # 先看全貌，
 > 這只是順序建議；③ 每一頁的答法都一樣，都在 Stylebook Merge 頁答。
 
 1. **聊專案**：這頁要給誰看、要什麼感覺、有沒有現成文案與圖。
-2. **回答開場那一題**：座位會問「這頁**沿用**站上的字典，還是**全部新開**一套？」—— 不確定就答沿用（預設）。這個答案 ③ 會用到。
+2. **沿用還是新開：在 Stylebook Merge 頁開始回收時選（併進現有 Stylebook / 這頁全部新開一本）。** 開工時不用先決定；不確定就選併進現有 Stylebook（預設）。
 3. **骨架**：看它列的段落清單（每段用途 + 候選 block）。點頭才讓它開始。
 4. **① 形狀**：看前台的形狀。逐顆說**留**或**換**。
 5. **② 感覺**：看長相。逐顆說**好**或**不好**。這裡還可以換 block。
 6. **內容**：文案圖片補齊，跑到 `page-audit` PASS。
-7. 你說 **yes** → 座位跑 ③，給你一個**Stylebook Merge 頁網址**：打開看這一頁的畫面、逐題選好按送出，跟座位說一聲。
+7. 你說 **yes** → 座位給你一個**Stylebook Merge 頁網址**：③ 收回由你在那一頁做 —— 打開看這一頁的畫面、逐題選好、寫入；不滿意也在同一頁撤銷寫入。
 
 ---
 
 ## 6. ③ 收回：開跑前備好什麼
 
-**③ 由座位跑、站主在 Stylebook Merge 頁答題**（[01-seat-rules](01-seat-rules.md)）。兩支工具：`design-writeback-plan`（出題 → 站主在 Stylebook Merge 頁送出 → 帶 `answers_from_site` 重產，反覆到可以執行）→ `design-writeback-apply`（寫回、清草稿層、驗收）。
+**③ 收回請站主到後台 Stylebook Merge 頁做**（[01-seat-rules](01-seat-rules.md)）：出題、作答、寫入、撤銷寫入都在那一頁；座位不呼叫任何收回工具，只把網址交給站主。
 
-開跑前四件事：
+交網址前三件事：
 
-1. **頁面已公開** —— 工具抓的是訪客看得到的前台，草稿 / 私人頁抓不到（② 畫之前就要公開，對位也一樣）。
-2. **草稿層還在** —— 畫完別自己清，那是 ③ 的材料。
-3. **在對話裡告知站主**要收哪一頁；**同站一次一頁**。
-4. **怎麼跟站主交接（Stylebook Merge 頁網址、等送出）**看 [03-page-draw-guide](03-page-draw-guide.md) §C-3；拒跑、partial、續跑這些工具行為看 `playbook-get name="guide/design/writeback"`。
+1. **頁面已公開** —— Stylebook Merge 頁收回時抓的是訪客看得到的前台，草稿 / 私人頁抓不到（② 畫之前就要公開，對位也一樣）。
+2. **草稿層還在** —— 畫完別自己清，那是 ③ 的材料；站主收完之前也 ⛔ 不要再改這一頁的草稿層。
+3. **怎麼跟站主交接（Stylebook Merge 頁網址、說法）**看 [03-page-draw-guide](03-page-draw-guide.md) §C-3，或 `playbook-get name="guide/design/writeback"`。
 
 ---
 

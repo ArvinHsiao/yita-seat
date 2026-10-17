@@ -15,7 +15,7 @@ YITA 座位手冊:用 YITA Builder 的 MCP 工具排頁、畫樣式草稿層、�
 /plugin install yita-seat@yita-seat
 ```
 
-裝好後會帶兩條 YITA Builder 連線(正式版 `https://builder.yita.dev/mcp` / DEV `https://builder-dev.yita.dev/mcp`),第一次使用時用 Google 帳號登入。
+裝好後會帶 YITA Builder 畫頁面兩條連線(正式版 `https://builder.yita.dev/mcp` / DEV `https://builder-dev.yita.dev/mcp`),另附維護者用的 DEV 店家後台連線 `https://builder-dev.yita.dev/desk/mcp`;第一次使用時用 Google 帳號登入。
 
 ## 其他工具(Claude Desktop / ChatGPT / Codex …)
 
